@@ -3,25 +3,35 @@ package org.springframework.samples.petclinic.web.api;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
+import org.hdiv.services.SecureIdentifiable;
+import org.hdiv.services.TrustAssertion;
 import org.joda.time.LocalDate;
+import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.PetType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class PetRequest {
-	private Integer		id;
+public class PetRequest implements SecureIdentifiable<Integer> {
+
+	@TrustAssertion(idFor = Pet.class)
+	private Integer id;
+
 	@JsonFormat(pattern = "yyyy/MM/dd")
-	private LocalDate	birthDate;
+	private LocalDate birthDate;
+
 	@Size(min = 1)
-	private String		name;
+	private String name;
+
 	@Min(1)
-	Integer						typeId;
+	@TrustAssertion(idFor = PetType.class)
+	Integer typeId;
 
 	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(final LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -29,7 +39,7 @@ public class PetRequest {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -37,21 +47,22 @@ public class PetRequest {
 		return typeId;
 	}
 
-	public void setTypeId(int typeId) {
+	public void setTypeId(final int typeId) {
 		this.typeId = typeId;
 	}
-	
+
+	@Override
 	public Integer getId() {
 		return id;
 	}
-	
-	public void setId(Integer id) {
+
+	public void setId(final Integer id) {
 		this.id = id;
 	}
 
 	@JsonProperty("isNew")
 	public boolean isNew() {
-		return this.id == null;
+		return id == null;
 	}
 
 	@Override

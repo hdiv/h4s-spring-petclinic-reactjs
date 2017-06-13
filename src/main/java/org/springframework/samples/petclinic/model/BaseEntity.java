@@ -20,6 +20,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.hdiv.services.SecureIdentifiable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -29,22 +31,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Juergen Hoeller
  */
 @MappedSuperclass
-public class BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+public class BaseEntity implements SecureIdentifiable<Integer> {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	protected Integer id;
 
-    public Integer getId() {
-        return id;
-    }
+	@Override
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(final Integer id) {
+		this.id = id;
+	}
 
-    @JsonProperty("isNew")
-    public boolean isNew() {
-        return this.id == null;
-    }
+	@JsonProperty("isNew")
+	public boolean isNew() {
+		return id == null;
+	}
 
 }
