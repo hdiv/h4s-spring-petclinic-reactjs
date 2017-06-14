@@ -17,6 +17,7 @@ package org.springframework.samples.petclinic.web.api;
 
 import javax.validation.Valid;
 
+import org.hdiv.services.TrustAssertion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PetResource extends AbstractResourceController {
 
-	private final Logger				logger	= LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	private final ClinicService	clinicService;
+	private final ClinicService clinicService;
 
 	@Autowired
 	public PetResource(ClinicService clinicService) {
@@ -56,8 +57,8 @@ public class PetResource extends AbstractResourceController {
 
 	@PostMapping("/owners/{ownerId}/pets")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void addNewPet(final @PathVariable("ownerId") int ownerId, final @Valid @RequestBody PetRequest petRequest,
-			final BindingResult bindingResult) {
+	public void addNewPet(final @PathVariable("ownerId") @TrustAssertion(idFor = Owner.class) int ownerId,
+			final @Valid @RequestBody PetRequest petRequest, final BindingResult bindingResult) {
 
 		logger.info("PetRequest: {}", petRequest);
 
