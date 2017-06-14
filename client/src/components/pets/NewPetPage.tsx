@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { IOwner, IEditablePet, ISelectOption } from '../../types';
+import { IOwner, IEditablePet, ISecureIdentifiableOption } from '../../types';
 
 import { url } from '../../util';
 
@@ -16,7 +16,7 @@ interface INewPetPageProps {
 interface INewPetPageState {
   pet?: IEditablePet;
   owner?: IOwner;
-  pettypes?: ISelectOption[];
+  pettypes?: ISecureIdentifiableOption[];
 };
 
 const NEW_PET: IEditablePet = {

@@ -7,12 +7,14 @@ import Input from '../form/Input';
 import DateInput from '../form/DateInput';
 import SelectInput from '../form/SelectInput';
 
-import { IError, IOwner, IPetRequest, IEditablePet, IPet, IPetType, IRouterContext, ISelectOption } from '../../types';
+import { IError, IOwner, IPetRequest, IEditablePet, IPet, IPetType, IRouterContext, ISelectOption, ISecureIdentifiableOption } from '../../types';
+
+import Hdiv from '../../hdiv';
 
 interface IPetEditorProps {
   pet: IEditablePet;
   owner: IOwner;
-  pettypes: ISelectOption[];
+  pettypes: ISecureIdentifiableOption[];
 }
 
 interface IPetEditorState {
@@ -39,13 +41,13 @@ export default class PetEditor extends React.Component<IPetEditorProps, IPetEdit
   onSubmit(event) {
     event.preventDefault();
 
-    const { owner } = this.props;
+    const { owner, pettypes } = this.props;
     const { editablePet } = this.state;
 
     const request: IPetRequest = {
       birthDate: editablePet.birthDate,
       name: editablePet.name,
-      typeId: editablePet.typeId
+      typeId: Hdiv.hid(pettypes, editablePet.typeId)
     };
 
     const url = editablePet.isNew ? '/api/owners/' + owner.id + '/pets' :  '/api/owners/' + owner.id + '/pets/' + editablePet.id;

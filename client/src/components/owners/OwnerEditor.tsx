@@ -40,7 +40,6 @@ export default class OwnerEditor extends React.Component<IOwnerEditorProps, IOwn
     event.preventDefault();
 
     const { owner } = this.state;
-
     const url = owner.isNew ? '/api/owner' : '/api/owner/' + owner.id;
     submitForm(owner.isNew ? 'POST' : 'PUT', url, owner, (status, response) => {
       if (status === 200 || status === 201) {

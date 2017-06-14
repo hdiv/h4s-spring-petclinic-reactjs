@@ -4,6 +4,8 @@ import { IError, IInputChangeHandler, ISelectOption } from '../../types';
 
 import FieldFeedbackPanel from './FieldFeedbackPanel';
 
+import Hdiv from '../../hdiv';
+
 export default ({object, error, name, label, options, onChange}: { object: any, error: IError, name: string, label: string, options: ISelectOption[], onChange: IInputChangeHandler }) => {
 
   const handleOnChange = event => {

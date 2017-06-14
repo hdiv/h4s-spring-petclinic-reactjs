@@ -1,5 +1,7 @@
 import { IRouter } from 'react-router';
 
+import {SecureIdentifiable} from '../hdiv';
+
 // ------------------------------------ ROUTER ------------------------------------
 export interface IRouterContext {
   router: IRouter;
@@ -39,8 +41,7 @@ export interface ISelectOption {
 
 // ------------------------------------ MODEL .------------------------------------
 
-interface IBaseEntity {
-  id: number;
+interface IBaseEntity extends SecureIdentifiable{
   isNew: boolean;
 };
 
@@ -58,10 +59,13 @@ export interface IVisit extends IBaseEntity {
   description: string;
 };
 
+export interface ISecureIdentifiableOption extends ISelectOption, SecureIdentifiable {
+}
+
 export interface IPetType extends INamedEntity {
 };
 
-export type IPetTypeId = number;
+export type IPetTypeId = string;
 
 export interface IPet extends INamedEntity {
   birthDate: Date;

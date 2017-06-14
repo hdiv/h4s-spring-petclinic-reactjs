@@ -122,7 +122,7 @@ public class DelegateConfig extends HdivServicesSecurityConfigurerAdapter {
 
 	@Override
 	public void addRules(final RuleRegistry registry) {
-		registry.addRule("safeText").acceptedPattern("^[a-zA-Z0-9 :@.\\-_+#]*$").rejectedPattern("(\\s|\\S)*(--)(\\s|\\S)*]");
+		registry.addRule("safeText").acceptedPattern("^[a-zA-Z0-9 :@.\\-_+#/]*$").rejectedPattern("(\\s|\\S)*(--)(\\s|\\S)*]");
 		registry.addRule("numbers").acceptedPattern("^[1-9]\\d*$");
 	}
 

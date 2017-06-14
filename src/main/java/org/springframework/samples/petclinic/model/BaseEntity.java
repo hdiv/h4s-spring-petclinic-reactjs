@@ -21,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import org.hdiv.services.SecureIdentifiable;
+import org.hdiv.services.TrustAssertion;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -46,6 +47,7 @@ public class BaseEntity implements SecureIdentifiable<Integer> {
 	}
 
 	@JsonProperty("isNew")
+	@TrustAssertion(ignored = true)
 	public boolean isNew() {
 		return id == null;
 	}

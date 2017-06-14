@@ -1,7 +1,7 @@
-import { IPetType, ISelectOption } from '../../types';
+import { IPetType, ISecureIdentifiableOption } from '../../types';
 import { url, submitForm } from '../../util';
 
-const toSelectOptions = (pettypes: IPetType[]): ISelectOption[] => pettypes.map(pettype => ({ value: pettype.id, name: pettype.name }));
+const toSelectOptions = (pettypes: IPetType[]): ISecureIdentifiableOption[] => pettypes.map(pettype => ({ value: pettype.nid, nid: pettype.nid, id: pettype.id, name: pettype.name }));
 
 export default (ownerId: string, petLoaderPromise: Promise<any>): Promise<any> => {
   return Promise.all(

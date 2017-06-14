@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.web.api;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.hdiv.services.TrustAssertion;
@@ -46,12 +48,12 @@ public class PetResource extends AbstractResourceController {
 	private final ClinicService clinicService;
 
 	@Autowired
-	public PetResource(ClinicService clinicService) {
+	public PetResource(final ClinicService clinicService) {
 		this.clinicService = clinicService;
 	}
 
 	@GetMapping("/pettypes")
-	Object getPetTypes() {
+	public Collection<PetType> getPetTypes() {
 		return clinicService.findPetTypes();
 	}
 
@@ -67,7 +69,7 @@ public class PetResource extends AbstractResourceController {
 		}
 
 		Pet pet = new Pet();
-		Owner owner = this.clinicService.findOwnerById(ownerId);
+		Owner owner = clinicService.findOwnerById(ownerId);
 		if (owner == null) {
 			throw new BadRequestException("Owner with Id '" + ownerId + "' is unknown.");
 		}
@@ -78,7 +80,8 @@ public class PetResource extends AbstractResourceController {
 
 	@PutMapping("/owners/{ownerId}/pets/{petId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void processUpdateForm(final @PathVariable("petId") int petId, final @Valid @RequestBody PetRequest petRequest, final BindingResult bindingResult) {
+	public void processUpdateForm(final @PathVariable("petId") int petId, final @Valid @RequestBody PetRequest petRequest,
+			final BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
 			throw new InvalidRequestException("Submitted Pet invalid", bindingResult);
@@ -87,7 +90,7 @@ public class PetResource extends AbstractResourceController {
 		save(clinicService.findPetById(petId), petRequest);
 	}
 
-	private void save(Pet pet, PetRequest petRequest) {
+	private void save(final Pet pet, final PetRequest petRequest) {
 
 		pet.setName(petRequest.getName());
 		pet.setBirthDate(petRequest.getBirthDate());
@@ -103,8 +106,8 @@ public class PetResource extends AbstractResourceController {
 	}
 
 	@GetMapping("/owners/*/pets/{petId}")
-	public PetRequest findPet(@PathVariable("petId") int petId) {
-		final Pet pet = this.clinicService.findPetById(petId);
+	public PetRequest findPet(@PathVariable("petId") final int petId) {
+		final Pet pet = clinicService.findPetById(petId);
 
 		final PetRequest petRequest = new PetRequest();
 		petRequest.setId(pet.getId());

@@ -9,6 +9,8 @@ import DateInput from '../form/DateInput';
 import Input from '../form/Input';
 import PetDetails from './PetDetails';
 
+import Hdiv from '../../hdiv';
+
 
 interface IVisitsPageProps {
   params: {
@@ -92,9 +94,9 @@ export default class VisitsPage extends React.Component<IVisitsPageProps, IVisit
     }
 
     const { owner, error, visit } = this.state;
-    const petId = this.props.params.petId;
+    const petId = Hdiv.nid(this.props.params.petId);
 
-    const pet = owner.pets.find(candidate => candidate.id.toString() === petId);
+    const pet = owner.pets.find(candidate => candidate.nid.toString() === petId);
 
     return (
       <div>
