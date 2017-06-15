@@ -9,8 +9,6 @@ import SelectInput from '../form/SelectInput';
 
 import { IError, IOwner, IPetRequest, IEditablePet, IPet, IPetType, IRouterContext, ISelectOption } from '../../types';
 
-import Hdiv from '../../hdiv';
-
 interface IPetEditorProps {
   pet: IEditablePet;
   owner: IOwner;
@@ -19,7 +17,6 @@ interface IPetEditorProps {
 
 interface IPetEditorState {
   editablePet?: IEditablePet;
-  petTypeId?: string;
   error?: IError;
 };
 
@@ -36,19 +33,19 @@ export default class PetEditor extends React.Component<IPetEditorProps, IPetEdit
     this.onInputChange = this.onInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
-    this.state = { editablePet: Object.assign({}, props.pet ), petTypeId: props.pet.typeId };
+    this.state = { editablePet: Object.assign({}, props.pet ) };
   }
 
   onSubmit(event) {
     event.preventDefault();
 
-    const { owner, pettypes } = this.props;
-    const { editablePet, petTypeId } = this.state;
+    const { owner } = this.props;
+    const { editablePet } = this.state;
 
     const request: IPetRequest = {
       birthDate: editablePet.birthDate,
       name: editablePet.name,
-      typeId: petTypeId
+      typeId: editablePet.typeId
     };
 
     const url = editablePet.isNew ? '/api/owners/' + owner.id + '/pets' :  '/api/owners/' + owner.id + '/pets/' + editablePet.id;
@@ -65,17 +62,10 @@ export default class PetEditor extends React.Component<IPetEditorProps, IPetEdit
   }
 
   onInputChange(name: string, value: string) {
-    const { editablePet, petTypeId } = this.state;
-
-    let type = petTypeId;
-    if (name === 'typeId') {
-      type = value;
-      value = Hdiv.nid(value);
-    }
-
+    const { editablePet } = this.state;
     const modifiedPet = Object.assign({}, editablePet, { [name]: value });
 
-    this.setState({ editablePet: modifiedPet, petTypeId: type });
+    this.setState({ editablePet: modifiedPet });
   }
 
   render() {

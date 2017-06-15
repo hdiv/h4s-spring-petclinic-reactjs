@@ -11,7 +11,6 @@ import PetDetails from './PetDetails';
 
 import Hdiv from '../../hdiv';
 
-
 interface IVisitsPageProps {
   params: {
     ownerId: string,

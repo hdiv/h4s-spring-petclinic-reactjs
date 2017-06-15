@@ -1,7 +1,7 @@
 import { IPetType, ISelectOption } from '../../types';
 import { url, submitForm } from '../../util';
 
-const toSelectOptions = (pettypes: IPetType[]): ISelectOption[] => pettypes.map(pettype => ({ value: pettype.nid, id: pettype.id, name: pettype.name }));
+const toSelectOptions = (pettypes: IPetType[]): ISelectOption[] => pettypes.map(pettype => ({ value: pettype.id, name: pettype.name }));
 
 export default (ownerId: string, petLoaderPromise: Promise<any>): Promise<any> => {
   return Promise.all(

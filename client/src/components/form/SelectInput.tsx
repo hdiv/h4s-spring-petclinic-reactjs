@@ -10,10 +10,14 @@ export default ({object, error, name, label, options, onChange}: { object: any, 
 
   const handleOnChange = event => {
     console.log('select on change', event.target.value);
-    onChange(name, event.target.selectedOptions[0].getAttribute('data-hdiv-hid'), null);
+    onChange(name, event.target.value, null);
   };
 
-  const selectedValue = object[name] || '';
+  let selectedValue = object[name] || '';
+  if (selectedValue && !Hdiv.isHid(selectedValue)) {
+    selectedValue = options.find(o => Hdiv.nid(String(o.value)) === selectedValue).value;
+  }
+
   const fieldError = error && error.fieldErrors[name];
   const valid = !fieldError && selectedValue !== '';
 
@@ -25,7 +29,7 @@ export default ({object, error, name, label, options, onChange}: { object: any, 
 
       <div className='col-sm-10'>
         <select size={5} className='form-control' name={name} onChange={handleOnChange} value={selectedValue}>
-          {options.map(option => <option key={option.value} value={option.value as string} data-hdiv-hid={option.id as string}>{option.name}</option>)}
+          {options.map(option => <option key={option.value} value={option.value as string}>{option.name}</option>)}
         </select>
         <FieldFeedbackPanel valid={valid} fieldError={fieldError} />
       </div>

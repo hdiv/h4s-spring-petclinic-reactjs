@@ -75,7 +75,7 @@ export default class FindOwnersPage extends React.Component<IFindOwnersPageProps
     const { filter } = this.state;
 
     this.context.router.push({
-      pathname: 'owners/list',
+      pathname: '/owners/list',
       query: { 'lastName': filter || '' }
     });
   }

@@ -34,7 +34,7 @@ export interface IConstraint {
 
 export type IInputChangeHandler = (name: string, value: string, error: IFieldError) => void;
 
-export interface ISelectOption extends SecureIdentifiable {
+export interface ISelectOption {
   value: string|number;
   name: string;
 };
