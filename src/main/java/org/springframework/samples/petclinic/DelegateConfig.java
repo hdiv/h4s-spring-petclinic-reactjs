@@ -59,7 +59,7 @@ public class DelegateConfig extends HdivServicesSecurityConfigurerAdapter {
 			SessionType type = SessionType.valueOf(System.getProperty("session.type"));
 			builder.sessionType(type);
 		}
-		builder.dashboardUser(null);
+		// builder.dashboardUser(null);
 		builder.hypermediaSupport(false).csrfHeader(false);
 	}
 
