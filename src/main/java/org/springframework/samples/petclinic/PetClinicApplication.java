@@ -18,16 +18,20 @@ package org.springframework.samples.petclinic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.FilterType;
 
 /**
  * PetClinic Spring Boot Application.
  *
  */
 @SpringBootApplication
+@ComponentScan(excludeFilters = @Filter(type = FilterType.REGEX, pattern = "org\\.springframework\\.samples\\.petclinic\\.web\\.[^a]*"))
 public class PetClinicApplication {
 
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(PetClinicApplication.class, args);
-    }
+	public static void main(final String[] args) throws Exception {
+		SpringApplication.run(PetClinicApplication.class, args);
+	}
 
 }
