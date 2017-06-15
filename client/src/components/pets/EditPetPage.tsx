@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { IOwner, IEditablePet, ISecureIdentifiableOption } from '../../types';
+import { IOwner, IEditablePet, ISelectOption } from '../../types';
 
 import { url } from '../../util';
 
@@ -19,7 +19,7 @@ interface IEditPetPageProps {
 interface IEditPetPageState {
   pet?: IEditablePet;
   owner?: IOwner;
-  pettypes?: ISecureIdentifiableOption[];
+  pettypes?: ISelectOption[];
 };
 
 export default class EditPetPage extends React.Component<IEditPetPageProps, IEditPetPageState> {

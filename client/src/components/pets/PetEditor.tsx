@@ -7,18 +7,19 @@ import Input from '../form/Input';
 import DateInput from '../form/DateInput';
 import SelectInput from '../form/SelectInput';
 
-import { IError, IOwner, IPetRequest, IEditablePet, IPet, IPetType, IRouterContext, ISelectOption, ISecureIdentifiableOption } from '../../types';
+import { IError, IOwner, IPetRequest, IEditablePet, IPet, IPetType, IRouterContext, ISelectOption } from '../../types';
 
 import Hdiv from '../../hdiv';
 
 interface IPetEditorProps {
   pet: IEditablePet;
   owner: IOwner;
-  pettypes: ISecureIdentifiableOption[];
+  pettypes: ISelectOption[];
 }
 
 interface IPetEditorState {
   editablePet?: IEditablePet;
+  petTypeId?: string;
   error?: IError;
 };
 
@@ -35,19 +36,19 @@ export default class PetEditor extends React.Component<IPetEditorProps, IPetEdit
     this.onInputChange = this.onInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
-    this.state = { editablePet: Object.assign({}, props.pet ) };
+    this.state = { editablePet: Object.assign({}, props.pet ), petTypeId: props.pet.typeId };
   }
 
   onSubmit(event) {
     event.preventDefault();
 
     const { owner, pettypes } = this.props;
-    const { editablePet } = this.state;
+    const { editablePet, petTypeId } = this.state;
 
     const request: IPetRequest = {
       birthDate: editablePet.birthDate,
       name: editablePet.name,
-      typeId: Hdiv.hid(pettypes, editablePet.typeId)
+      typeId: petTypeId
     };
 
     const url = editablePet.isNew ? '/api/owners/' + owner.id + '/pets' :  '/api/owners/' + owner.id + '/pets/' + editablePet.id;
@@ -64,10 +65,17 @@ export default class PetEditor extends React.Component<IPetEditorProps, IPetEdit
   }
 
   onInputChange(name: string, value: string) {
-    const { editablePet } = this.state;
+    const { editablePet, petTypeId } = this.state;
+
+    let type = petTypeId;
+    if (name === 'typeId') {
+      type = value;
+      value = Hdiv.nid(value);
+    }
+
     const modifiedPet = Object.assign({}, editablePet, { [name]: value });
 
-    this.setState({ editablePet: modifiedPet });
+    this.setState({ editablePet: modifiedPet, petTypeId: type });
   }
 
   render() {
