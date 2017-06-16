@@ -1,5 +1,7 @@
 import { IHttpMethod } from '../types';
 
+import Hdiv from '../hdiv';
+
 declare var __API_SERVER_URL__;
 const BACKEND_URL = (typeof __API_SERVER_URL__ === 'undefined' ? 'http://localhost:8080' : __API_SERVER_URL__);
 
@@ -25,5 +27,20 @@ export const submitForm = (method: IHttpMethod, path: string, data: any, onSucce
 
   console.log('Submitting to ' + method + ' ' + requestUrl);
   return fetch(requestUrl, fetchParams)
-    .then(response => response.status === 204 ? onSuccess(response.status, {}) : response.json().then(result => onSuccess(response.status, result)));
+    .then(response => {
+      if (response.status === 204) {
+        return onSuccess(response.status, {});
+      }
+
+      response.json().then(result => {
+        if (response.status === 403) {
+          const fieldErrors = {};
+          for (let e of result.errors) {
+            fieldErrors[e.parameterName] = {field: e.parameterName, message: e.type.replace(/_/g, ' ')};
+          }
+          result = { fieldErrors: fieldErrors };
+        }
+        onSuccess(response.status, result);
+      });
+    });
 };

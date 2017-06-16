@@ -47,7 +47,7 @@ public class BaseEntity implements SecureIdentifiable<Integer> {
 	}
 
 	@JsonProperty("isNew")
-	@TrustAssertion(ignored = true)
+	@TrustAssertion
 	public boolean isNew() {
 		return id == null;
 	}
