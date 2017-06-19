@@ -60,7 +60,7 @@ public class DelegateConfig extends HdivServicesSecurityConfigurerAdapter {
 			builder.sessionType(type);
 		}
 		// builder.dashboardUser(null);
-		builder.hypermediaSupport(false).csrfHeader(false);
+		builder.hypermediaSupport(false).csrfHeader(true);
 	}
 
 	@Override
