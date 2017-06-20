@@ -49,8 +49,9 @@ public class DelegateConfig extends HdivServicesSecurityConfigurerAdapter {
 
 		builder.createARegionPerControllerMapping(false);
 		builder.reuseExistingPageInAjaxRequest(!Boolean.getBoolean("hdiv.dont.reuse"));
-		builder.requiredByDefault(true).sessionType(SessionType.STATELESS);
+		builder.sessionType(SessionType.STATELESS);
 		builder.hypermediaSupport(false).csrfHeader(true);
+		builder.corsAllowOrigin(true);
 	}
 
 	@Override
