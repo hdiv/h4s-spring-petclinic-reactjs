@@ -6,7 +6,6 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hdiv.config.annotation.ExclusionRegistry;
-import org.hdiv.config.annotation.RuleRegistry;
 import org.hdiv.config.annotation.ValidationConfigurer;
 import org.hdiv.ee.config.SessionType;
 import org.hdiv.ee.config.SingleCacheConfig;
@@ -21,7 +20,6 @@ import org.springframework.hateoas.config.EnableEntityLinks;
 
 import com.hdivsecurity.services.config.EnableHdiv4ServicesSecurityConfiguration;
 import com.hdivsecurity.services.config.HdivServicesSecurityConfigurerAdapter;
-import com.hdivsecurity.services.config.ServicesConfig.IdProtectionType;
 import com.hdivsecurity.services.config.ServicesSecurityConfigBuilder;
 
 @Configuration
@@ -51,15 +49,7 @@ public class DelegateConfig extends HdivServicesSecurityConfigurerAdapter {
 
 		builder.createARegionPerControllerMapping(false);
 		builder.reuseExistingPageInAjaxRequest(!Boolean.getBoolean("hdiv.dont.reuse"));
-
-		if (Boolean.getBoolean("id.protection")) {
-			builder.idProtection(IdProtectionType.PLAINTEXT_HID);
-		}
-		if (System.getProperty("session.type") != null) {
-			SessionType type = SessionType.valueOf(System.getProperty("session.type"));
-			builder.sessionType(type);
-		}
-		// builder.dashboardUser(null);
+		builder.requiredByDefault(true).sessionType(SessionType.STATELESS);
 		builder.hypermediaSupport(false).csrfHeader(true);
 	}
 
@@ -121,15 +111,8 @@ public class DelegateConfig extends HdivServicesSecurityConfigurerAdapter {
 	}
 
 	@Override
-	public void addRules(final RuleRegistry registry) {
-		registry.addRule("safeText").acceptedPattern("^[a-zA-Z0-9 :@.\\-_+#/]*$").rejectedPattern("(\\s|\\S)*(--)(\\s|\\S)*]");
-		registry.addRule("numbers").acceptedPattern("^[1-9]\\d*$");
-	}
-
-	@Override
 	public void configureEditableValidation(final ValidationConfigurer validationConfigurer) {
-		validationConfigurer.addValidation("/.*").forParameters("amount").rules("numbers").disableDefaults();
-		validationConfigurer.addValidation("/.*").rules("safeText").disableDefaults();
+		validationConfigurer.addValidation("/.*");
 	}
 
 }
